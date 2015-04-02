@@ -1,5 +1,4 @@
 /* global modules:false */
-/* global window:false */
 
 modules.define('scrollspy',
                ['i-bem__dom', 'jquery__event_type_scroll', 'functions__throttle', 'next-tick'],
@@ -47,7 +46,7 @@ provide(BEMDOM.decl('scrollspy', {
     calcOffsets:function(){
       this.position = this.domElem.offset();
       this.height = this.domElem.height();
-      this.offset = this.__self.get_offset(this.offset);      
+      this.offset = this.__self.getOffset(this.offset);      
 
       this.top = this.position.top ; //верхняя граница
       this.bottom = this.position.top + this.height; //нижняя граница 
@@ -212,7 +211,7 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {int|string} offset
      * @returns {int} offset in px
      */
-    get_offset: function(offset){
+    getOffset: function(offset){
 
       if (typeof offset === 'string') {       
         
