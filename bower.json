@@ -10,5 +10,12 @@
     "scrollspy",
     "i-bem"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "libs"
+  ],
+  "dependencies": {
+    "bem-core": "~2.6.0"
+  }
 }
