@@ -160,6 +160,7 @@ provide(BEMDOM.decl('scrollspy', {
     scroll: 0,
     oldScroll: 0,
     direction: this.forward,
+    isForward: true,
 
     /**
      * viewport Height
