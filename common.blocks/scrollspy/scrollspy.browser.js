@@ -16,7 +16,7 @@ provide(BEMDOM.decl('scrollspy', {
               this.nextTick(function(){
                 this.calcOffsets();
                  //смотрим, нет ли елементов в фокусе
-                this.onScroll();               
+                this._onScroll();               
               });
               
               this.bindToWin('resize', throttle(this.calcOffsets, 1500, this));
@@ -51,8 +51,8 @@ provide(BEMDOM.decl('scrollspy', {
       this.top = this.position.top ; //верхняя граница
       this.bottom = this.position.top + this.height; //нижняя граница 
 
-      this.oftop = this.top + this._offset;
-      this.ofbottom = this.bottom - this._offset;
+      this._oftop = this.top + this._offset;
+      this._ofbottom = this.bottom - this._offset;
     },
 
 
@@ -60,10 +60,10 @@ provide(BEMDOM.decl('scrollspy', {
      * Выполняется, на каждом блоке при каждом скролле
      * @returns void
      */
-    onScroll: function(){
+    _onScroll: function(){
       if(this.__self.isForward){  // if scrolled down
 
-        if ( (this.oftop <= this.__self.posBottom) && (this.bottom >= this.__self.scroll) ) {
+        if ( (this._oftop <= this.__self.posBottom) && (this.bottom >= this.__self.scroll) ) {
           this.activate();          
         }else{
           this.deactivate();          
@@ -71,7 +71,7 @@ provide(BEMDOM.decl('scrollspy', {
 
       }else{ // scrolled up
        
-        if (this.ofbottom >= this.__self.scroll && this.top <= this.__self.posBottom){
+        if (this._ofbottom >= this.__self.scroll && this.top <= this.__self.posBottom){
           this.activate();          
         }else{
           this.deactivate();         
@@ -180,7 +180,7 @@ provide(BEMDOM.decl('scrollspy', {
        this.posBottom = this.scroll + this.screenH;
 
        for (var i in this._listeners) {
-         this._listeners[i].onScroll();
+         this._listeners[i]._onScroll();
        }
 
       this.oldScroll = this.scroll;
