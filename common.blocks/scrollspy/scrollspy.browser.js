@@ -10,8 +10,8 @@ provide(BEMDOM.decl('scrollspy', {
             'inited' : function() {  
 
               this.__self.add(this);
-              this.offset = this.params.offset || '10%'; 
-              this.scrollin = false; 
+              this._offset = this.params.offset || '10%'; 
+              this._scrollin = false; 
 
               this.nextTick(function(){
                 this.calcOffsets();
@@ -35,7 +35,7 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {int| string} offset new block offset in px or percents
      */
     setOffset: function(offset){
-      this.offset = offset;
+      this._offset = offset;
       this.calcOffsets();
     },
 
@@ -46,13 +46,13 @@ provide(BEMDOM.decl('scrollspy', {
     calcOffsets:function(){
       this.position = this.domElem.offset();
       this.height = this.domElem.height();
-      this.offset = this.__self.getOffset(this.offset);      
+      this._offset = this.__self.getOffset(this._offset);      
 
       this.top = this.position.top ; //верхняя граница
       this.bottom = this.position.top + this.height; //нижняя граница 
 
-      this.oftop = this.top + this.offset;
-      this.ofbottom = this.bottom - this.offset;
+      this.oftop = this.top + this._offset;
+      this.ofbottom = this.bottom - this._offset;
     },
 
 
@@ -88,12 +88,12 @@ provide(BEMDOM.decl('scrollspy', {
      */
     activate: function() {
 
-      if (this.scrollin) {
+      if (this._scrollin) {
         return false;
       }
       
       this.emit('scrollin', this.__self.direction);
-      this.scrollin = true;
+      this._scrollin = true;
       return true;
     },
 
@@ -103,12 +103,12 @@ provide(BEMDOM.decl('scrollspy', {
      */
     deactivate: function() {
 
-      if (!this.scrollin) {
+      if (!this._scrollin) {
         return false;
       }
 
       this.emit('scrollout', this.__self.direction);
-      this.scrollin = false;    
+      this._scrollin = false;    
       return true;
     },
 
@@ -125,7 +125,7 @@ provide(BEMDOM.decl('scrollspy', {
      * @returns {bool} active block
      */
     isActive: function(){
-      return this.scrollin;
+      return this._scrollin;
     }
 },{ /* static methods */
 
