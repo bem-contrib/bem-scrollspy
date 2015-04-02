@@ -1,0 +1,14 @@
+{
+  "name": "bem-scrollspy",
+  "version": "0.1.0",
+  "authors": [
+    "Evgeniy Baranov <master@kompolom.ru>"
+  ],
+  "description": "Scrollspy for i-bem framework",
+  "keywords": [
+    "bem",
+    "scrollspy",
+    "i-bem"
+  ],
+  "license": "MIT"
+}
