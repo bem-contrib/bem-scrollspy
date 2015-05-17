@@ -3,10 +3,10 @@
 modules.define('jquery__event_type_scroll', ['jquery'], function(provide, jQuery){
 
 (function( $, window, undefined ) {
-	var scrollEvent = "touchmove scroll";
+	var scrollEvent = 'touchmove scroll';
 
 	// setup new event shortcuts
-	$.each( [ "scrollstart", "scrollstop" ], function( i, name ) {
+	$.each( [ 'scrollstart', 'scrollstop' ], function( i, name ) {
 
 		$.fn[ name ] = function( fn ) {
 			return fn ? this.bind( name, fn ) : this.trigger( name );
@@ -34,7 +34,7 @@ modules.define('jquery__event_type_scroll', ['jquery'], function(provide, jQuery
 
 				scrolling = state;
 
-				event.type = scrolling ? "scrollstart" : "scrollstop";
+				event.type = scrolling ? 'scrollstart' : 'scrollstop';
 				$.event.dispatch.call( thisObject, event );
 				event.type = originalEventType;
 			}
@@ -62,7 +62,7 @@ modules.define('jquery__event_type_scroll', ['jquery'], function(provide, jQuery
 	};
 
 	$.each({
-		scrollstop: "scrollstart"
+		scrollstop: 'scrollstart'
 	}, function( event, sourceEvent ) {
 
 		$.event.special[ event ] = {

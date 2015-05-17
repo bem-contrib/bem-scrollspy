@@ -7,18 +7,17 @@ modules.define('scrollspy',
 provide(BEMDOM.decl('scrollspy', {
     onSetMod : {
         'js' : {
-            'inited' : function() {  
-
+            'inited' : function() {
               this.__self.add(this);
-              this._offset = this.params.offset || '10%'; 
-              this._scrollin = false; 
+              this._offset = this.params.offset || '10%';
+              this._scrollin = false;
 
               this.nextTick(function(){
-                this.calcOffsets();
-                 //смотрим, нет ли елементов в фокусе
-                this._onScroll();               
+                this
+                  .calcOffsets()
+                  ._onScroll(); // check for elements in focus
               });
-              
+
               this.bindToWin('resize', throttle(this.calcOffsets, 1500, this));
             },
 
@@ -26,7 +25,7 @@ provide(BEMDOM.decl('scrollspy', {
               this.__self.del(this._uniqId);
             }
         },
-        
+
     },
 
     /**
@@ -34,50 +33,56 @@ provide(BEMDOM.decl('scrollspy', {
      * @public
      * @param {int| string} offset new block offset in px or percents
      */
-    setOffset: function(offset){
+    setOffset: function(offset) {
       this._offset = offset;
       this.calcOffsets();
+
+      return this;
     },
 
     /**
      * Calc scroll block in/out position
-     * @returns void
+     * @returns BEM
      */
-    calcOffsets:function(){
-      this.position = this.domElem.offset();
-      this.height = this.domElem.height();
-      this._offset = this.__self.getOffset(this._offset);      
+    calcOffsets:function() {
+      var domElem = this.domElem;
+
+      this.position = domElem.offset();
+      this.height = domElem.height();
+      this._offset = this.__self.getOffset(this._offset);
 
       this.top = this.position.top ; //верхняя граница
-      this.bottom = this.position.top + this.height; //нижняя граница 
+      this.bottom = this.position.top + this.height; //нижняя граница
 
       this._oftop = this.top + this._offset;
       this._ofbottom = this.bottom - this._offset;
+
+      return this;
     },
 
 
     /**
-     * Выполняется, на каждом блоке при каждом скролле
-     * @returns void
+     * Выполняется на каждом блоке при каждом скролле
+     * @returns {bool}
      */
-    _onScroll: function(){
-      if(this.__self.isForward){  // if scrolled down
+    _onScroll: function() {
+      var self = this.__self;
 
-        if ( (this._oftop <= this.__self.posBottom) && (this.bottom >= this.__self.scroll) ) {
-          this.activate();          
-        }else{
-          this.deactivate();          
+      // scrolled down
+      if(self.isForward) {
+        if (this._oftop <= self.posBottom && this.bottom >= self.scroll) {
+          return this.activate();
         }
 
-      }else{ // scrolled up
-       
-        if (this._ofbottom >= this.__self.scroll && this.top <= this.__self.posBottom){
-          this.activate();          
-        }else{
-          this.deactivate();         
-        }
+        return this.deactivate();
+      }
 
-      }//end if      
+      // scrolled up
+      if (this._ofbottom >= self.scroll && this.top <= self.posBottom) {
+        return this.activate();
+      }
+
+      return this.deactivate();
     },
 
 
@@ -91,7 +96,7 @@ provide(BEMDOM.decl('scrollspy', {
       if (this._scrollin) {
         return false;
       }
-      
+
       this.emit('scrollin', this.__self.direction);
       this._scrollin = true;
       return true;
@@ -108,7 +113,7 @@ provide(BEMDOM.decl('scrollspy', {
       }
 
       this.emit('scrollout', this.__self.direction);
-      this._scrollin = false;    
+      this._scrollin = false;
       return true;
     },
 
@@ -116,7 +121,7 @@ provide(BEMDOM.decl('scrollspy', {
      * Returns scroll direction
      * @returns {string} direction
      */
-    getDir: function(){
+    getDir: function() {
       return this.__self.getDir();
     },
 
@@ -124,10 +129,10 @@ provide(BEMDOM.decl('scrollspy', {
      * Is block in view zone
      * @returns {bool} active block
      */
-    isActive: function(){
+    isActive: function() {
       return this._scrollin;
     }
-},{ /* static methods */
+}, { /* static methods */
 
     /**
      * Register new block
@@ -136,7 +141,7 @@ provide(BEMDOM.decl('scrollspy', {
       this._listeners[block._uniqId] = block;
     },
 
-    del: function(uniqId){
+    del: function(uniqId) {
       delete this._listeners[uniqId];
     },
 
@@ -165,23 +170,23 @@ provide(BEMDOM.decl('scrollspy', {
     /**
      * viewport Height
      */
-    screenH: BEMDOM.win.height(), 
+    screenH: BEMDOM.win.height(),
 
     /**
-     * This callback calls once on every scroll 
+     * This callback calls once on every scroll
      *
      * @callback _onScroll
      * @param {object} event
      */
     _onScroll: function(e) {
-       //var d = new Date();
-       this.scroll = BEMDOM.win.scrollTop();
-       this._setDirection();
-       this.posBottom = this.scroll + this.screenH;
+      //var d = new Date();
+      this.scroll = BEMDOM.win.scrollTop();
+      this._setDirection();
+      this.posBottom = this.scroll + this.screenH;
 
-       for (var i in this._listeners) {
-         this._listeners[i]._onScroll();
-       }
+      Object.keys(this._listeners).forEach(function(id) {
+        this._listeners[id]._onScroll();
+      });
 
       this.oldScroll = this.scroll;
 
@@ -192,15 +197,15 @@ provide(BEMDOM.decl('scrollspy', {
      * Returns scroll direction
      * @returns {string} direction
      */
-    getDir: function(){
+    getDir: function() {
       return this.direction;
     },
 
     /**
-     * Calc scroll direction.  
-     * @returns void 
+     * Calc scroll direction.
+     * @returns void
      */
-    _setDirection:function(){
+    _setDirection:function() {
       this.isForward = this.oldScroll < this.scroll;
       this.direction = this.isForward ? this.forward : this.backward;
     },
@@ -212,27 +217,24 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {int|string} offset
      * @returns {int} offset in px
      */
-    getOffset: function(offset){
+    getOffset: function(offset) {
+      if (typeof offset !== 'string') return offset;
 
-      if (typeof offset === 'string') {       
-        
-        var off = parseFloat(offset);
+      var off = parseFloat(offset);
 
-        if (offset.indexOf('%') > -1) {
-          return Math.ceil(this.screenH * off / 100);
-        }
-        return off;
+      if (offset.indexOf('%') > -1) {
+        return Math.ceil(this.screenH * off / 100);
       }
-      return offset;
+      return off;
     },
 
-    live: function(){
-      $(window).bind('scrollstop', $.proxy(throttle(this._onScroll, this.pause, this), this));
-      this.scroll = BEMDOM.win.scrollTop();
+    live: function() {
+      var win = BEMDOM.win;
+      win.bind('scrollstop', $.proxy(throttle(this._onScroll, this.pause, this), this));
+      this.scroll = win.scrollTop();
       return false;
     }
-} 
- ));
+}));
 
 
 });
