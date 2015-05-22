@@ -62,7 +62,7 @@ provide(BEMDOM.decl('scrollspy', {
 
 
     /**
-     * Выполняется на каждом блоке при каждом скролле
+     * Runs everytime on every block
      * @returns {bool}
      */
     _onScroll: function() {
@@ -88,7 +88,6 @@ provide(BEMDOM.decl('scrollspy', {
 
     /**
      * Activate block in view zone.
-     * @param {object} block BEM block
      * @returns {bool} result
      */
     activate: function() {
@@ -132,6 +131,7 @@ provide(BEMDOM.decl('scrollspy', {
     isActive: function() {
       return this._scrollin;
     }
+
 }, { /* static methods */
 
     /**
