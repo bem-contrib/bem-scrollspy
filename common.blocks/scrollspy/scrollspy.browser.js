@@ -184,9 +184,9 @@ provide(BEMDOM.decl('scrollspy', {
       this._setDirection();
       this.posBottom = this.scroll + this.screenH;
 
-      Object.keys(this._listeners).forEach(function(id) {
-        this._listeners[id]._onScroll();
-      });
+      for (var i in this._listeners) {
+        this._listeners[i]._onScroll();
+      }
 
       this.oldScroll = this.scroll;
 
