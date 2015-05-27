@@ -232,6 +232,7 @@ provide(BEMDOM.decl('scrollspy', {
       var win = BEMDOM.win;
       win.bind('scrollstop', $.proxy(throttle(this._onScroll, this.pause, this), this));
       this.scroll = win.scrollTop();
+      this.posBottom = this.scroll + this.screenH;
       return false;
     }
 }));
