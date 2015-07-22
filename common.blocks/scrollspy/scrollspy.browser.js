@@ -13,9 +13,8 @@ provide(BEMDOM.decl('scrollspy', {
               this._scrollin = false;
 
               this.nextTick(function(){
-                this
-                  .calcOffsets()
-                  ._onScroll(); // check for elements in focus
+                this.calcOffsets();
+                this._onScroll(); // check for elements in focus
               });
 
               this.bindToWin('resize', throttle(this.calcOffsets, 1500, this));
