@@ -7,7 +7,7 @@ BEM-Scrollspy
 
 bem-core
   * блок `i-bem` 
-  * блок `next-thick`
+  * блок `next-tick`
   * блок `functions` 
   * блок `jquery`
    
