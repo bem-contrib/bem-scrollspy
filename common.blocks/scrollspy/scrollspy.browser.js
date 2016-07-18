@@ -1,8 +1,8 @@
 /* global modules:false */
 
 modules.define('scrollspy',
-               ['i-bem__dom', 'jquery__event_type_scroll', 'functions__throttle', 'next-tick'],
-               function(provide, BEMDOM, $, throttle, nextTick) {
+               ['i-bem__dom', 'jquery', 'functions__throttle'],
+               function(provide, BEMDOM, $, throttle) {
 
 provide(BEMDOM.decl('scrollspy', {
     onSetMod : {
@@ -146,7 +146,7 @@ provide(BEMDOM.decl('scrollspy', {
 
     _listeners: {},
 
-    pause: 100,
+    pause: 50,
 
     /**
      * Forward direction name
@@ -229,7 +229,7 @@ provide(BEMDOM.decl('scrollspy', {
 
     live: function() {
       var win = BEMDOM.win;
-      win.bind('scrollstop', $.proxy(throttle(this._onScroll, this.pause, this), this));
+      win.bind('scroll', $.proxy(throttle(this._onScroll, this.pause, this), this));
       this.scroll = win.scrollTop();
       this.posBottom = this.scroll + this.screenH;
       return false;
