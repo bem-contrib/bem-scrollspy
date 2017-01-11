@@ -1,0 +1,27 @@
+{
+  "name": "bem-scrollspy",
+  "version": "0.2.1",
+  "description": "Scrollspy for i-bem framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kompolom/bem-scrollspy.git"
+  },
+  "keywords": [
+    "bem",
+    "scrollspy",
+    "i-bem"
+  ],
+  "author": "Evgeniy Baranov <master@kompolom.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kompolom/bem-scrollspy/issues"
+  },
+  "homepage": "https://github.com/kompolom/bem-scrollspy#readme",
+  "dependencies": {
+    "bem-core": "<4.0"
+  }
+}
