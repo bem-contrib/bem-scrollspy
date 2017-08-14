@@ -148,6 +148,8 @@ provide(BEMDOM.decl('scrollspy', {
 
     pause: 50,
 
+    idleTimeout : 400,
+
     /**
      * Forward direction name
      */
@@ -171,6 +173,8 @@ provide(BEMDOM.decl('scrollspy', {
      */
     screenH: BEMDOM.win.height(),
 
+    _to : null,
+
     /**
      * This callback calls once on every scroll
      *
@@ -178,10 +182,13 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {object} event
      */
     _onScroll: function(e) {
-      //var d = new Date();
       this.scroll = BEMDOM.win.scrollTop();
       this._setDirection();
       this.posBottom = this.scroll + this.screenH;
+
+      if(this._to) {
+          clearTimeout(this._to);
+      }
 
       for (var i in this._listeners) {
         this._listeners[i]._onScroll();
@@ -189,7 +196,9 @@ provide(BEMDOM.decl('scrollspy', {
 
       this.oldScroll = this.scroll;
 
-      //console.log({time: new Date() - d, listeners: Object.keys(this._listeners).length});
+      if(e) {
+          this._to = setTimeout(this._onScroll.bind(this), this.idleTimeout);
+      }
     },
 
     /**
