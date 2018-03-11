@@ -1,6 +1,6 @@
 {
   "name": "bem-scrollspy",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Scrollspy for i-bem framework",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "url": "https://github.com/kompolom/bem-scrollspy/issues"
   },
   "homepage": "https://github.com/kompolom/bem-scrollspy#readme",
-  "dependencies": {
+  "devDependencies": {
     "bem-core": "<4.0"
   }
 }
