@@ -17,7 +17,7 @@ modules.define('scrollspy', [
           this._offset = this.params.offset || '10%';
           this._scrollin = false;
 
-          this._nextTick(function(){
+          this._nextTick(function() {
             this.calcOffsets();
             this._onScroll(); // check for elements in focus
           });
