@@ -1,7 +1,14 @@
 /* global modules:false */
 
-modules.define('scrollspy', ['i-bem-dom', 'jquery', 'functions__throttle'], function(provide, bemDom, $, throttle) {
-
+modules.define('scrollspy', [
+  'i-bem-dom',
+  'jquery',
+  'functions__throttle'
+], function(provide,
+  bemDom,
+  $,
+  throttle
+) {
   provide(bemDom.declBlock(this.name, {
     onSetMod: {
       'js': {
