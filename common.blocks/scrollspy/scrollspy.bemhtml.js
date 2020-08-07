@@ -1,1 +1,3 @@
-block('scrollspy').addJs()(true);
+block('scrollspy')(
+    js()(true)
+);
