@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/kompolom/bem-scrollspy#readme",
   "devDependencies": {
-    "bem-core": "<4.0"
+    "bem-core": "^4.3.1"
   }
 }

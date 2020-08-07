@@ -1,30 +1,34 @@
 /* global modules:false */
 
-modules.define('scrollspy',
-               ['i-bem__dom', 'jquery', 'functions__throttle'],
-               function(provide, BEMDOM, $, throttle) {
+modules.define('scrollspy', [
+  'i-bem-dom',
+  'jquery',
+  'functions__throttle'
+], function(provide,
+  bemDom,
+  $,
+  throttle
+) {
+  provide(bemDom.declBlock(this.name, {
+    onSetMod: {
+      'js': {
+        'inited': function() {
+          this.__self.add(this);
+          this._offset = this.params.offset || '10%';
+          this._scrollin = false;
 
-provide(BEMDOM.decl('scrollspy', {
-    onSetMod : {
-        'js' : {
-            'inited' : function() {
-              this.__self.add(this);
-              this._offset = this.params.offset || '10%';
-              this._scrollin = false;
+          this._nextTick(function() {
+            this.calcOffsets();
+            this._onScroll(); // check for elements in focus
+          });
 
-              this.nextTick(function(){
-                this.calcOffsets();
-                this._onScroll(); // check for elements in focus
-              });
-
-              this.bindToWin('resize', throttle(this.calcOffsets, 1500, this));
-            },
-
-            '' : function(){
-              this.__self.del(this._uniqId);
-            }
+          this._domEvents(bemDom.win).on('resize', throttle(this.calcOffsets, 1500, this));
         },
 
+        '' : function() {
+          this.__self.del(this._uniqId);
+        }
+      }
     },
 
     /**
@@ -95,7 +99,7 @@ provide(BEMDOM.decl('scrollspy', {
         return false;
       }
 
-      this.emit('scrollin', this.__self.direction);
+      this._emit('scrollin', this.__self.direction);
       this._scrollin = true;
       return true;
     },
@@ -110,7 +114,7 @@ provide(BEMDOM.decl('scrollspy', {
         return false;
       }
 
-      this.emit('scrollout', this.__self.direction);
+      this._emit('scrollout', this.__self.direction);
       this._scrollin = false;
       return true;
     },
@@ -131,7 +135,7 @@ provide(BEMDOM.decl('scrollspy', {
       return this._scrollin;
     }
 
-}, { /* static methods */
+  }, { /* static methods */
 
     /**
      * Register new block
@@ -171,7 +175,7 @@ provide(BEMDOM.decl('scrollspy', {
     /**
      * viewport Height
      */
-    screenH: BEMDOM.win.height(),
+    screenH: bemDom.win.height(),
 
     _to : null,
 
@@ -182,7 +186,7 @@ provide(BEMDOM.decl('scrollspy', {
      * @param {object} event
      */
     _onScroll: function(e) {
-      this.scroll = BEMDOM.win.scrollTop();
+      this.scroll = bemDom.win.scrollTop();
       this._setDirection();
       this.posBottom = this.scroll + this.screenH;
 
@@ -236,14 +240,14 @@ provide(BEMDOM.decl('scrollspy', {
       return off;
     },
 
-    live: function() {
-      var win = BEMDOM.win;
+    onInit: function() {
+      var win = bemDom.win;
       win.bind('scroll', $.proxy(throttle(this._onScroll, this.pause, this), this));
       this.scroll = win.scrollTop();
       this.posBottom = this.scroll + this.screenH;
-      return false;
-    }
-}));
 
+      return this.__base.apply(this, arguments);
+    }
+  }));
 
 });

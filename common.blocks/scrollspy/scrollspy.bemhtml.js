@@ -1,0 +1,1 @@
+block('scrollspy').addJs()(true);
