@@ -1,6 +1,6 @@
 {
   "name": "bem-scrollspy",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Scrollspy for i-bem framework",
   "main": "index.js",
   "scripts": {
