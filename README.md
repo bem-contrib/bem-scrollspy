@@ -1,24 +1,38 @@
 BEM-Scrollspy
 =============
 
-Блок для отслеживания скролла страницы. Предназначен для проектов, использующих БЭМ методологию.
+Блок для отслеживания прокрутки страницы. Предназначен для проектов, использующих БЭМ методологию.
 
 ## Зависимости
 
 bem-core
-  * блок `i-bem` 
+  * блок `i-bem-dom` 
   * блок `next-tick`
   * блок `functions` 
   * блок `jquery`
    
 ## Установка
 
- 1. Достаточно прописать библиотеку как зависимость в вашем `bower.json` и выполнить `bower install` для установки из GitHub-репозитория или Bower регистра.
+ 1. Добавьте библиотеку в зависимости `package.json`:
+ 
+ ```json
+{
+    "devDependencies": {
+        "bem-scrollspy": "github:bem-contrib/bem-scrollspy#v0.3.0"
+    }
+}
+```
 
- 2. Добавьте уровень переопределения в файл make.js:
+ 2. Добавьте уровень переопределения в файл `.bemrc.js`:
 
 ``` javascript
-[ 'libs/bem-scrollspy/common.blocks' ]
+{
+    root: true,
+    levels: [],
+    libs: {
+        "bem-scrollspy": {}
+    }
+}
 ```
 
 ## Использование
@@ -26,25 +40,25 @@ bem-core
 Все, что делает блок `scrollspy` — генерирует два БЭМ-события:
 
   * `scrollin` - когда блок становится виден пользователю;
-  * `scrollout` - когда блок скрыватся из виду.
+  * `scrollout` - когда блок скрывается из виду.
   
 Подписавшись на эти события, можно выполнять различные действия. Например, запускать и останавливать анимацию:
 
 ````javascript
-    var ss = this.findBlockOn('scrollspy');
-
-    ss.on('scrollin', function() { this.setMod('animation', 'progress'); }, this);                  
-    ss.on('scrollout', function() { this.setMod('animation', 'stop'); }, this);   
+    this
+        ._events(this.findMixedBlock(Scrollspy))
+        .on('scrollin', function() { this.setMod('animation', 'progress'); }, this)                
+        .on('scrollout', function() { this.setMod('animation', 'stop'); }, this);   
 ````
 
-В объекте события передается направление скролла. Например:
+В объекте события передается направление прокрутки. Например:
+
 ````javascript
-    var ss = this.findBlockOn('scrollspy');
-    ss.on('scrollin', this._onScrollIn, this); //подписка на событие
+    this
+        ._events(this.findMixedBlock(Scrollspy))
+        .on('scrollin', this._onScrollIn, this); //подписка на событие
     
-    /*.....*/
-    
-    _onScrollIn: function(e, dir){ //получаем направление скролла вторым параметром
+    function _onScrollIn(_, dir) { //получаем направление скролла вторым параметром
       if (dir === 'down') {
         doAction();
       } else if (dir === 'up') {
@@ -65,8 +79,9 @@ bem-core
 ````
 
 или использовать метод `setOffset()`:
+
 ````javascript
-    var ss = this.findBlockInside('scrollspy');
+    const ss = this.findChild(Scrollspy);
     ss.setOffset(0);
 ````
 Этот метод установит новый размер отступа и пересчитает позицию блока.
@@ -80,6 +95,6 @@ bem-core
 | setOffset(val)  | Устанавливает отступ в процентах или пикселях.      |
 | calcOffsets()   | Запускает расчет позиции блока.                     |
 | activate()      | Ручная активация блока (вызовет событие `scrollin`).|
-| deactivate()    | «Ручнной» `scrollout`.                              |
-| getDir()        | Возвращает направление последнего скролла.          |
+| deactivate()    | «Ручной» `scrollout`.                               |
+| getDir()        | Возвращает последнее направление прокрутки.         |
 | isActive()      | Проверяет, находится ли блок в зоне просмотра       |
